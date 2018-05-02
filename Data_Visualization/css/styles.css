@@ -1,0 +1,125 @@
+﻿@import url('reset.css');
+body {
+	background-color: #ccccff;
+	font-family: helvetica, "Times New Roman", Times, serif;
+}
+a:focus {
+	outline: none;
+}
+.clear {
+	clear: both;
+}
+#page-wrap {
+	position: relative;
+	width: 760px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 50px;
+}
+ul#main-nav {
+	margin-left: 20px;
+}
+ul#main-nav li {
+	float: left;
+	position: relative;
+	margin-left: -20px;
+	display: inline;
+}
+ul#main-nav li a {
+	position: relative;
+	width: 110px;
+	height: 29px;
+	display: block;
+	background-image: url('../images/tabs.png');
+	background-position: center center;
+	color: #44403b;
+	text-decoration: none;
+	font-size: 14px;
+	padding-top: 12px;
+	text-align: left;
+	padding-left: 30px;
+	font-weight: bold;
+}
+ul#main-nav li.home a {
+	background-image: url('../images/tab-home.png');
+}
+ul#main-nav li.current a {
+	background-position: top;
+	color: #ffffff;
+}
+ul#main-nav li a:hover {
+	background-position: bottom;
+	color: #ffffff;
+}
+ul#main-nav li.current a:hover {
+	background-position: top; /*To Prevent the Current tab from changing colour on hover*/
+	color: #ffffff;
+}
+ul#main-nav li.current {
+	z-index: 101;
+}
+ul#main-nav li.index2 {
+	z-index: 101;
+}
+ul#main-nav li.age {
+	z-index: 99;
+}
+ul#main-nav li.gpa {
+	z-index: 98;
+}
+ul#main-nav li.attendance {
+	z-index: 97;
+}
+ul#main-nav li.check {
+	z-index: 96;
+}
+#image {
+	position: relative;
+	float: left;
+	margin-left: 40px;
+	margin-top: 25px;
+}
+#featured {
+	position: relative;
+	background-color: #577295;
+	background-image: url('../images/featured-border.jpg');
+	background-repeat: repeat-y;
+	background-position: left;
+	height: 272px;
+	color: #ffffff;
+}
+#featured h1 {
+	font-size: 24px;
+	position: relative;
+	margin-bottom: 17px;
+}
+#featured p {
+	line-height: 18px;
+	font-size: 12px;
+}
+#featured-content{
+	float: right;
+	position: relative;
+	width: 322px;
+	margin-top: 30px;
+	margin-right: 35px;
+	display: inline;
+}
+
+#backb {  
+    margin-left: 121px;
+    margin-top: 1px;
+    width: 200px;
+    height: 200px;   
+    background: transparent;
+    border: none;
+    color: black;   
+    font-size:14px;
+    font-weight:700;
+}
+
+#main{
+	background-color: #ccccff
+	
+}
+

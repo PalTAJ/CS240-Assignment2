@@ -1,0 +1,247 @@
+﻿<!DOCTYPE>
+<html>
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<link href="css/styles.css" rel="stylesheet" type="text/css" />
+</head>
+
+
+	<div id="page-wrap">
+		<ul id="main-nav">
+			<li class="home"><a href="index2.html">Home</a></li>
+			<li class="age"><a href="age.html">Age</a></li>
+			<li class="gpa"><a href="gpa.html">Grades</a></li>
+			<li class="attendance"><a href="attendance.html">Attendance</a></li>
+			<li class="check"><a href="check.html">Check</a></li>
+			<li class="credits"><a href="taj.html">Credits</a></li>
+		</ul>
+		</head>
+		<body>
+<script>
+var h = 200 ;
+var w = 500 ;
+
+var vis = d3.select("body")
+	.append("svg")
+	//.attr("style", "outline: thin solid black;")
+	.attr("width", 1000)
+	.attr("height", 1000)
+	//.attr("x","600")
+	//.attr("y","0")
+	
+	.append("g")// to make all rect undercontrol to do transformation
+		.attr("transform","translate(100,0)")
+		
+
+	
+var widthScale = d3.scaleLinear()
+		.domain([0,320])
+		.range([0,320]);
+var xAxis = d3.axisBottom(widthScale)
+	.ticks(20);
+var scale = vis.append("g")
+	.attr("transform","translate(180,180)")
+	.call(xAxis);
+
+
+var secondBorder = vis.append("rect")
+  .attr("height", 200)
+  .attr("width", 2)
+  .attr("x",520)
+  .attr("y",10)
+  .attr("fill", "black")
+	
+	
+var firstBorder = vis.append("rect")
+  .attr("height", 201.5)
+  .attr("width", 2)
+  .attr("x",720)
+  .attr("y",10)
+  .attr("fill", "black")
+  
+ var thirdBorder = vis.append("rect")
+  .attr("height", 200)
+  .attr("width", 2)
+  .attr("x",160)
+  .attr("y",10)
+  .attr("fill", "black")
+  
+  var lowerBorder = vis.append("rect")
+  .attr("height", 2)
+  .attr("width", 560)
+  .attr("x",160)
+  .attr("y",10)
+  .attr("fill", "black")
+  
+ var lowerBorder = vis.append("rect")
+  .attr("height", 2)
+  .attr("width", 560)
+  .attr("x",160)
+  .attr("y",210)
+  .attr("fill", "black")
+  
+var rect1 = vis.append("rect")
+		.attr("width",20)
+		.attr("height",20)
+		.attr("x",550)
+		.attr("y",50)
+		.attr("fill","red");
+		
+var rect2 = vis.append("rect")
+		.attr("width",20)
+		.attr("height",20)
+		.attr("x",550)
+		.attr("y",80)
+		.attr("fill","purple");
+
+var rect3 = vis.append("rect")
+		.attr("width",20)
+		.attr("height",20)
+		.attr("x",550)
+		.attr("y",110)
+		.attr("fill","green");
+		
+var textgreen = vis.append("text")
+		.attr("x",585)
+		.attr("y",125)
+		.text("Safe")
+		.attr("fill","black");
+		
+var textred = vis.append("text")
+		.attr("x",585)
+		.attr("y",65)
+		.text("Danger")
+		.attr("fill","black");
+
+var textpurple = vis.append("text")
+		.attr("x",585)
+		.attr("y",95)
+		.text("Partial Danger")
+		.attr("fill","black");
+
+		
+		
+		var nodes = [
+    {x: 20, y: 50,ra:7,c:"green"},
+    {x: 70, y: 10,ra:10,c:"green"},
+	{x: 130, y: 60,ra:5,c:"purple"},
+	{x: 140, y: 10,ra:10,c:"purple"},
+	{x: 170, y: 60,ra:15,c:"red"},
+    {x: 220, y: 50,ra:20,c:"red"}   
+  ]
+ 
+
+  
+var moves = vis.selectAll("circle")
+   .data(nodes)
+   .enter()
+   .append("circle")
+   .attr("cx", function(d) { return d.x+180; })
+   .attr("cy", function(d) { return d.y+50; })
+   .attr("r", "7px")
+   //.attr("fill", function(d) { return d.c; } )
+   .attr("fill", function(d) {
+                         var Color;
+                         if (d.x < 100) { Color = "green";
+                         } else if (d.x < 150) { Color = "purple";
+                         } else if (d.x < 200) { Color = "red"; 
+						 }else  { Color = "red";}
+                         return Color;})
+	
+						 
+	moves.on("mouseover",handleMouseOver)
+	moves.on("mouseout",handleMouseOut)
+						 		 
+		function handleMouseOver(d, i) {  
+
+            d3.select(this)
+				.transition()
+				.duration(500)
+				.attr("fill","gold")
+				.attr("r",13)
+            
+            vis.append("text")
+			.attr("id", "taj")
+			.attr("x",function() { return d.x + 185; })
+			.attr("y",function() { return d.y + 50; })
+			.attr("font-size",11)
+            .text(function() {
+              return [d.x, d.y];  
+            });
+          }
+		    
+      function handleMouseOut(d, i) {
+            d3.select(this)
+			.transition()
+			.duration(500)
+			.attr("fill", function(d) {
+                         var Color;
+                         if (d.x < 100) { Color = "green";
+                         } else if (d.x < 150) { Color = "purple";
+                         } else if (d.x < 200) { Color = "red"; 
+						 }else  { Color = "red";}
+                         return Color;})
+						 
+			.attr("r",7)
+			d3.select("#taj").remove();
+            
+
+           
+          }
+				 
+						 /*
+						 
+	.call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
+
+function dragstarted(d) {
+  d3.select(this).raise().classed("active", true);
+}
+
+function dragged(d) {
+  d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y).attr("r",12).attr("fill","gold");
+}
+
+function dragended(d) {
+  d3.select(this).classed("active", false);
+  moves.transition() 
+		.duration(2000)
+		.attr("cx",function(d) { return d.x+180; })
+		.attr("cy",function(d) { return d.y+50; })
+		.attr("r", "7px")
+		.attr("fill", function(d) {
+                         var Color;
+                         if (d.x < 100) { Color = "green";
+                         } else if (d.x < 150) { Color = "purple";
+                         } else if (d.x < 200) { Color = "red"; 
+						 }else  { Color = "red";}
+                         return Color;});
+		
+	
+  
+}
+*/
+
+
+/*
+ vis.selectAll("text")
+	.data(nodes)
+	.enter()
+	.append("text")
+	.attr("x", function(d) { return d.x+180; })
+	.attr("y", function(d) { return d.y+50; })
+	.text(function(d) { return d.x +","+d.y ; });						 
+
+   */
+   
+   
+   
+
+    </script>
+</body>
+
+</html>

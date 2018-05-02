@@ -1,0 +1,877 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<link href="css/styles.css" rel="stylesheet" type="text/css" />
+<script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<style>
+#container1{
+text-align:center;
+
+}
+
+#test{ 
+	display:inline-block; 
+	 text-align: left;
+	 margin:10px;
+	 right: 16px;
+}
+	   
+#test2{
+display:inline-block; 
+ text-align: left;
+ margin:10px;
+}
+</style>
+
+
+
+<body>
+	<div id="page-wrap">
+		<ul id="main-nav">
+			<li class="current"><a href="index2.html">Home</a></li>
+			<li class="age"><a href="age.html">Age</a></li>
+			<li class="gpa"><a href="gpa.html">Grades</a></li>
+			<li class="attendance"><a href="attendance.html">Attendance</a></li>
+			<li class="check"><a href="check.html">Check</a></li>
+			<li class="credits"><a href="taj.html">Credits</a></li>
+		</ul>
+		
+		
+		<form action="">
+<div id="container1">
+<div id="test2">
+<b>Node Score Calculation :</b>  
+	
+	
+	
+  <!--<input style="display:inline-block" type="radio" name="NodeScore" value="Sum"> Sum-->
+  <!--<input style="display:inline-block" type="radio" name="NodeScore" value="Max"> Max-->
+  <p>Only Use Edge Score Over: </p>
+  
+  
+  
+  
+  
+  <p>
+  <label for="nRadius1" 
+         style="display: inline-block">
+         <span id="nRadius1-value">…</span>
+  </label>
+  <input type="range" min="0" max="100" id="nRadius1">
+</p>
+<p> Methode :</p>
+  
+  
+  
+</div>
+<div id="test">
+<b>Visual:</b> 
+	<p> Show Only The Edges With Scoer Over :</p>
+	
+	
+	
+	
+	
+	<p>
+  <label for="nRadius" 
+         style="display: inline-block">
+         <span id="nRadius-value">…</span>
+  </label>
+  <input type="range" min="0" max="100" id="nRadius">
+</p>
+	
+	
+	
+	
+	
+	<p>Node Labels : </p>
+	<!--<input style="display:inline-block" type="checkbox" name="Hide" value="Hide"> Hide-->
+	
+	<!--<input style="display:inline-block" type="checkbox" class="myCheckbox" value="Show"> Show-->
+ </div> </div>
+</form>
+<style>
+
+.links line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+
+
+</style>
+<svg width="800" height="600"></svg>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+
+
+	<p>
+  <label for="nRadius2" 
+         style="display: inline-block">
+         <span id="nRadius2-value">…</span>
+  </label>
+  <input type="range" min="0" max="100" id="nRadius2">
+</p>
+
+<script>
+
+updatemax();
+
+function updatesum(){ 
+
+
+	
+
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+
+	
+	var rect1 = svg.append("rect")
+		.attr("width",10)
+		.attr("height",10)
+		.attr("x",400)
+		.attr("y",5)
+		.attr("fill","grey");
+		
+	svg.append("text")
+		.attr("x",415)
+		.attr("y",15)
+		.text("Show");
+		
+		
+	var rect2 = svg.append("rect")
+		.attr("width",10)
+		.attr("height",10)
+		.attr("x",345)
+		.attr("y",5)
+		.attr("fill","grey");
+		
+	svg.append("text")
+		.attr("x",360)
+		.attr("y",15)
+		.text("Hide");
+		
+		
+		
+	var rect3 = svg.append("rect")
+		.attr("width",10)
+		.attr("height",10)
+		.attr("x",120)
+		.attr("y",5)
+		.attr("fill","grey");
+		
+	svg.append("text")
+		.attr("x",135)
+		.attr("y",15)
+		.text("Sum");
+		
+		
+		
+	var rect4 = svg.append("rect")
+		.attr("width",10)
+		.attr("height",10)
+		.attr("x",175)
+		.attr("y",5)
+		.attr("fill","grey");
+		
+	svg.append("text")
+		.attr("x",190)
+		.attr("y",15)
+		.text("Max");
+	
+var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+var simulation = d3.forceSimulation()
+    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+    .force("charge", d3.forceManyBody().strength(-180))
+    .force("center", d3.forceCenter(width / 3, height / 2))
+	
+	
+	//.force("link", d3.forceLink().distance(500).strength(0.1));
+    
+
+d3.json("assignments.json", function(graph) {
+var data101 = graph.Data;
+
+	//updatesum();
+
+svg.selectAll("g").remove();
+var len1 = 0 ;
+var nodes = [];
+//alert(data101[1]["Student_A"]);
+
+for(i=0;i<data101.length;i++){
+var t = 0;
+for(j=0;j<data101.length;j++){
+var temp1;
+if (data101[i]["Student_A"] == data101[j]["Student_B"] ||data101[i]["Student_A"] == data101[j]["Student_A"] ){
+
+	
+	t = t + data101[j]["NormalizedMetric"];
+	temp1 = data101[i]["Student_A"]
+} //first if
+ 
+		}//second loop
+		len1 = len1+1 ;
+nodes.push({"id":Math.floor(len1),"sum":Math.floor(t)})
+	}
+	///////////////////////////////////////////////////
+	var links = [];
+	
+for (c=0;c<data101.length;c++){
+var t1 = 0;
+for(j=0;j<data101.length;j++){
+var temp1;
+if (data101[c]["Student_A"] == data101[j]["Student_B"] ||data101[c]["Student_A"] == data101[j]["Student_A"] ){
+	t1 = t1 + data101[j]["NormalizedMetric"];
+}
+		}//second loop
+	
+
+	
+	links.push({"source": data101[c]["Student_A"],
+	"target": data101[c]["Student_B"],
+	"NM": data101[c]["NormalizedMetric"],
+	"A_B": data101[c]["A_B_Similarity"],
+	"B_A": data101[c]["B_A_Similarity"],
+	"web": data101[c]["File"],
+	"sum":Math.floor(t1)
+	
+	
+	});
+	//alert(data101[1]["File"])
+    }
+	//alert(data101[0]["Student_A"])
+  var link = svg.append("g")
+      .attr("class", "links")
+    .selectAll("line")
+    .data(links)
+    .enter()
+	.append("line")
+      .attr("stroke-width", function(d){return (d.sum)/28} )
+	 //.on("dblclick", dblclick(function(d) { return d.web; }));
+	  //.attr("stroke-width",update );
+	  
+//.on("click",window.open(function(d) { return d.web; }));
+  var node = svg.append("g")
+     .attr("class", "nodes")
+    .selectAll("circle")
+    .data(nodes)
+    .enter().append("circle")
+	  .attr("r",function(d){return (d.sum)/20})
+      //.attr("fill", "black" )
+	  .attr("fill",function(d) { return color(d.sum); })
+	  
+      .call(d3.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended));		
+	rect1.on("click",update3) //show
+	rect2.on("click",update4)  // Hide
+	rect3.on("click",updatesum) //sum
+	rect4.on("click",updatemax)//max
+	
+	
+	node.append("title")
+      .text(function(d) { return "student"+ d.id +" ,sum"+parseInt(d.sum/20); });
+	link.append("title")
+      .text(function(d) { return "student"+ d.id +" ,sum"+parseInt(d.sum/28); });
+	  
+	  
+//function openweb()	{
+
+//window.open(function(d) { return d.web; })
+
+
+//}  
+//function dblclick(a){
+ //   window.open("C:\Users\tajothman\Desktop\project 1 D3"+a);
+// }
+
+function update3(){  //show
+	var t1 = svg.append("g")
+		.attr("class", "lables")
+		.selectAll("text")
+		.data(nodes)
+		.enter().append("text")
+			//.attr("id", "taj")
+			.text(function(d) { return "student "+ d.id; })
+			.attr("font-size",11)
+			.attr("x", function(d) { return d.x; })
+			.attr("y",function(d) { return d.y; });	
+			}
+		
+function update4(){ //hide
+		svg.selectAll("text").remove()
+		
+		svg.append("text")
+		.attr("x",415)
+		.attr("y",15)
+		.text("Show");
+		
+		svg.append("text")
+		.attr("x",360)
+		.attr("y",15)
+		.text("Hide");
+		
+		svg.append("text")
+		.attr("x",135)
+		.attr("y",15)
+		.text("Sum");
+		
+		svg.append("text")
+		.attr("x",190)
+		.attr("y",15)
+		.text("Max");
+			
+			}
+/////////////////////////////////////////////////////////////////////
+
+
+d3.select("#nRadius").on("input", function() {
+  update(+this.value);
+});
+
+// update the elements
+function update(nRadius) {
+
+
+
+  // adjust the text on the range slider
+  d3.select("#nRadius-value").text(nRadius);
+  d3.select("#nRadius").property("value", nRadius);
+
+
+	svg.selectAll("line")
+	//.attr("stroke-width", function(d){return ((d.A_B)*(nRadius/100))/7 } );
+	.attr("stroke-width", function(d) {
+	var rr ;
+	if ((d.sum) > nRadius*3) { rr = (d.sum)/28;
+                         } else if ((d.sum) < nRadius*3) {rr = 0 ;}
+						 return rr;} );	
+}
+
+///////////////////////////////////////////////////////////////////////////
+
+d3.select("#nRadius1").on("input", function() {
+  update0(+this.value);
+});
+
+// update the elements
+function update0(nRadius1) {
+  
+  d3.select("#nRadius1-value").text(nRadius1);
+  d3.select("#nRadius1").property("value", nRadius1);
+  svg.selectAll("circle") 
+	.attr("r",function(d) {
+	var rr ;
+	if (d.sum/3 > nRadius1) { rr = d.sum/20 ;
+	
+						 }else if (d.sum < nRadius1*2 ) {rr = 0 ;}
+						 return rr;} );	
+}
+
+///////////////////////////////////////////////////////////////////////
+	// enlarging bar
+	/*
+	d3.select("#nRadius2").on("input", function() {
+  update2(+this.value);
+});
+
+
+
+function update2(nRadius2) { 
+
+ 
+  d3.select("#nRadius2-value").text(nRadius2);
+  d3.select("#nRadius2").property("value", nRadius2);
+  svg.selectAll("circle") 
+		.attr("r", function(d){return (d.sum)*nRadius2/10 });
+	svg.selectAll("line")
+		.attr("stroke-width", function(d){return ((d.NM)/9)*nRadius2/100 } );
+}*/	
+////////////////////////////////////////////////////////////////////////////
+	
+  simulation
+      .nodes(nodes)
+      .on("tick", ticked);
+
+  simulation
+  
+	.force("link")
+	.links(links);
+  //simulation.force("charge", null);
+		
+  function ticked() {
+    link
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node
+        .attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });}
+		
+	
+function dragstarted(d) {
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x;
+  d.fy = d.y;
+}
+
+function dragged(d) {
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+}
+
+function dragended(d) {
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
+}
+	
+	}); //file end
+	
+	///
+	} //fn end
+	
+	
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  
+  
+  
+  
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////// 	
+	
+function updatemax(){
+
+
+
+	
+	
+var len1 = 0 ;
+var nodes = [];
+
+
+
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+
+	
+	var rect1 = svg.append("rect")
+		.attr("width",10)
+		.attr("height",10)
+		.attr("x",400)
+		.attr("y",5)
+		.attr("fill","grey");
+		
+	svg.append("text")
+		.attr("x",415)
+		.attr("y",15)
+		.text("Show");
+		
+		
+	var rect2 = svg.append("rect")
+		.attr("width",10)
+		.attr("height",10)
+		.attr("x",345)
+		.attr("y",5)
+		.attr("fill","grey");
+		
+	svg.append("text")
+		.attr("x",360)
+		.attr("y",15)
+		.text("Hide");
+		
+		
+		
+	var rect3 = svg.append("rect")
+		.attr("width",10)
+		.attr("height",10)
+		.attr("x",120)
+		.attr("y",5)
+		.attr("fill","grey");
+		
+	svg.append("text")
+		.attr("x",135)
+		.attr("y",15)
+		.text("Sum");
+		
+		
+		
+	var rect4 = svg.append("rect")
+		.attr("width",10)
+		.attr("height",10)
+		.attr("x",175)
+		.attr("y",5)
+		.attr("fill","grey");
+		
+	svg.append("text")
+		.attr("x",190)
+		.attr("y",15)
+		.text("Max");
+	
+var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+var simulation = d3.forceSimulation()
+    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+    .force("charge", d3.forceManyBody().strength(-180))
+    .force("center", d3.forceCenter(width / 3, height / 2))
+	
+	
+	//.force("link", d3.forceLink().distance(500).strength(0.1));
+    
+
+d3.json("assignments.json", function(graph) {
+var data101 = graph.Data;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////
+
+svg.selectAll("g").remove();	
+for(i=0;i<data101.length;i++){
+var templist = [];
+for(j=0;j<data101.length;j++){
+
+if (data101[i]["Student_A"] == data101[j]["Student_B"] ||data101[i]["Student_A"] == data101[j]["Student_A"] ){
+	
+templist.unshift(data101[j]["NormalizedMetric"])
+}
+		}//second loop
+		var t = Math.max.apply(Math, templist);
+		len1 = len1+1 ;
+nodes.push({"id":Math.floor(len1),"sum":Math.floor(t)})
+	}	
+//////////////////////////////////////////////////
+var links = [];
+	
+for (c=0;c<data101.length;c++){
+
+for(j=0;j<data101.length;j++){
+var temp1 = [];
+if (data101[c]["Student_A"] == data101[j]["Student_B"] ||data101[c]["Student_A"] == data101[j]["Student_A"] ){
+	temp1.unshift(data101[j]["NormalizedMetric"])
+}
+		}//second loop
+		var t1 = Math.max.apply(Math, templist);
+	
+	links.push({"source": data101[c]["Student_A"],
+	"target": data101[c]["Student_B"],
+	"NM": data101[c]["NormalizedMetric"],
+	"A_B": data101[c]["A_B_Similarity"],
+	"B_A": data101[c]["B_A_Similarity"],
+	"sum":Math.floor(t1)
+	
+	
+	});
+    }
+	//alert(data101[0]["Student_A"])
+  var link = svg.append("g")
+      .attr("class", "links")
+    .selectAll("line")
+    .data(links)
+    .enter()
+	.append("line")
+      .attr("stroke-width", function(d){return (d.sum)/4} );
+	  //.attr("stroke-width",update );
+
+  var node = svg.append("g")
+     .attr("class", "nodes")
+    .selectAll("circle")
+    .data(nodes)
+    .enter().append("circle")
+	  .attr("r",function(d){return (d.sum)/5})
+      //.attr("fill", "black" )
+	  .attr("fill",function(d) { return color(d.sum); })
+	  
+      .call(d3.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended));		
+	rect1.on("click",update3) //show
+	rect2.on("click",update4)  // Hide
+	rect3.on("click",updatesum) //sum
+	rect4.on("click",updatemax)//max
+	
+	node.append("title")
+      .text(function(d) { return "student"+ d.id +" ,sum"+parseInt(d.sum/5); });
+	link.append("title")
+      .text(function(d) { return "student"+ d.id +" ,sum"+parseInt(d.sum/4); });
+
+function update3(){  //show
+	var t1 = svg.append("g")
+		.attr("class", "lables")
+		.selectAll("text")
+		.data(nodes)
+		.enter().append("text")
+			//.attr("id", "taj")
+			.text(function(d) { return "student "+ d.id; })
+			.attr("font-size",11)
+			.attr("x", function(d) { return d.x; })
+			.attr("y",function(d) { return d.y; });	
+			}
+		
+function update4(){ //hide
+		svg.selectAll("text").remove()
+		
+		svg.append("text")
+		.attr("x",415)
+		.attr("y",15)
+		.text("Show");
+		
+		svg.append("text")
+		.attr("x",360)
+		.attr("y",15)
+		.text("Hide");
+		
+		svg.append("text")
+		.attr("x",135)
+		.attr("y",15)
+		.text("Sum");
+		
+		svg.append("text")
+		.attr("x",190)
+		.attr("y",15)
+		.text("Max");
+			}
+////////////////////
+
+/////////////////////////////////////////////////////////////////////
+
+
+d3.select("#nRadius").on("input", function() {
+  update(+this.value);
+});
+
+// update the elements
+function update(nRadius) {
+
+  // adjust the text on the range slider
+  d3.select("#nRadius-value").text(nRadius);
+  d3.select("#nRadius").property("value", nRadius);
+
+
+	svg.selectAll("line")
+	//.attr("stroke-width", function(d){return ((d.A_B)*(nRadius/100))/7 } );
+	.attr("stroke-width", function(d) {
+	var rr ;
+	if ((d.sum) > nRadius) { rr = (d.sum)/5;
+                         } else if ((d.sum) < nRadius/10) {rr = 0 ;}
+						 return rr;} );	
+}
+
+///////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////
+
+d3.select("#nRadius1").on("input", function() {
+  update0(+this.value);
+});
+
+// update the elements
+function update0(nRadius1) {
+  
+  d3.select("#nRadius1-value").text(nRadius1);
+  d3.select("#nRadius1").property("value", nRadius1);
+  
+}
+
+///////////////////////////////////////////////////////////////////////
+
+
+
+
+///////////////////
+	
+  simulation
+      .nodes(nodes)
+      .on("tick", ticked);
+  simulation
+	.force("link")
+	.links(links);
+  //simulation.force("charge", null);
+  function ticked() {
+    link
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+    node
+        .attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });}
+		
+		
+		
+	function dragstarted(d) {
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x;
+  d.fy = d.y;
+}
+
+function dragged(d) {
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+}
+
+function dragended(d) {
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
+}
+	}); //file end
+	}// max fn end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<!--/////////////////////
+//
+/// Ranks Calculations 	
+//
+/////////////////////-->	
+	
+	
+	
+<style>
+#border1{
+	border-style: groove;
+	text-align: center;
+	background:  #ffffcc;
+	font-weight: Arial, Helvetica, sans-serif;
+	}
+</style>
+<div id="border1">	
+
+<div id="myDIV">This is a div element.</div>
+<div id="myDIV2">This is a div element.</div>
+<div id="myDIV3">This is a div element.</div>
+<div id="myDIV4">This is a div element.</div>
+<div id="myDIV5">This is a div element.</div>
+<div id="myDIV6">This is a div element.</div>
+<div id="myDIV7">This is a div element.</div>
+<div id="myDIV8">This is a div element.</div>
+<div id="myDIV9">This is a div element.</div>
+<div id="myDIV10">This is a div element.</div>
+<div id="myDIV11">This is a div element.</div>
+</div>				
+<script>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+window.onload = function() {
+	
+d3.json("assignments.json", function(graph) {
+var data101 = graph.Data;
+///////////////////////////////////////////////
+var len1 = 0 ;
+var nodes = [];
+for(i=0;i<data101.length;i++){
+var t = 0;
+for(j=0;j<data101.length;j++){
+var temp1;
+if (data101[i]["Student_A"] == data101[j]["Student_B"] ||data101[i]["Student_A"] == data101[j]["Student_A"] ){
+	t = t + data101[j]["NormalizedMetric"];
+	temp1 = data101[i]["Student_A"]
+}
+		}//second loop
+		len1 = len1+1 ;
+nodes.push({"id":Math.floor(len1),"sum":parseInt(t)})  
+	}
+//////////////////////////////////////////////
+var templist = [];
+for(i=0;i<nodes.length;i++){
+	templist.push({ "score" : parseInt(nodes[i]["sum"]), "name": parseInt(nodes[i]["id"])})
+		}
+		function compareNumbers(a, b)
+		{
+		return a.score - b.score;
+		}
+		templist.sort(compareNumbers);
+		var len2 = (templist.length)-1;
+		//alert(templist[len2]["score"]);
+		//alert(templist[len2]["name"]);
+		//alert(len1-1);
+		document.getElementById("myDIV").innerHTML =("Rank "+1+" : Student_"+templist[len2]["name"] + "-- score " +parseInt((templist[len2]["score"])/13));
+		document.getElementById("myDIV2").innerHTML =("Rank "+2+": Student_"+templist[len2-1]["name"] + "-- score " +parseInt((templist[len2-1]["score"])/13));
+		document.getElementById("myDIV3").innerHTML =("Rank "+3+": Student_"+templist[len2-2]["name"] + "-- score " +parseInt((templist[len2- 2]["score"])/13));
+		document.getElementById("myDIV4").innerHTML =("Rank "+4+": Student_"+templist[len2-3]["name"] + "-- score " +parseInt((templist[len2- 3]["score"])/13));
+		document.getElementById("myDIV5").innerHTML =("Rank "+5+": Student_"+templist[len2-4]["name"]+ "-- score " +parseInt((templist[len2- 4]["score"])/13));
+		document.getElementById("myDIV6").innerHTML =("Rank "+6+" : Student_"+templist[len2-5]["name"] + "-- score " +parseInt((templist[len2-5]["score"])/13));
+		document.getElementById("myDIV7").innerHTML =("Rank "+7+": Student_"+templist[len2-6]["name"] + "-- score " +parseInt((templist[len2-6]["score"])/13));
+		document.getElementById("myDIV8").innerHTML =("Rank "+8+": Student_"+templist[len2-7]["name"] + "-- score " +parseInt((templist[len2- 7]["score"])/13));
+		document.getElementById("myDIV9").innerHTML =("Rank "+9+": Student_"+templist[len2-8]["name"] + "-- score " +parseInt((templist[len2- 8]["score"])/13));
+		document.getElementById("myDIV10").innerHTML =("Rank "+10+": Student_"+templist[len2-9]["name"]+ "-- score " +parseInt((templist[len2- 9]["score"])/13));
+		document.getElementById("myDIV11").innerHTML =("-----------------------------------");
+					
+})//file end
+}
+
+</script>
+
+
+	
+	
+		 

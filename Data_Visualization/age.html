@@ -1,0 +1,285 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<link href="css/styles.css" rel="stylesheet" type="text/css" />
+<div id="page-wrap">
+		<ul id="main-nav">
+			<li class="home"><a href="index2.html">Home</a></li>
+			<li class="age"><a href="age.html">Age</a></li>
+			<li class="gpa"><a href="gpa.html">Grades</a></li>
+			<li class="attendance"><a href="attendance.html">Attendance</a></li>
+			<li class="check"><a href="check.html">Check</a></li>
+			<li class="credits"><a href="taj.html">Credits</a></li>
+		</ul>
+		</div>
+</head>
+<body>
+			<script src="https://d3js.org/d3.v4.min.js"></script>
+			
+			
+			<script>
+			
+			
+
+		
+d3.json("mydata.json",function(data){
+	var canvas = d3.select("body").append("svg")
+		.attr("width",800)
+		.attr("height",900)
+	var vis = canvas.selectAll("rect")
+		.data(data)
+		.enter()
+			.append("rect")
+			.attr("width",function(d){return d.age*7;})
+			.attr("height",28)
+			.attr("y",function(d,i){return i*30-(-10);})
+			.attr("x",function(d,i){return 2.9*88})
+			.attr("fill","#248f8f");
+				
+	canvas.selectAll("text")
+		.data(data)
+		.enter()
+			.append("text")
+			.attr("fill","gold")
+			.attr("y",function(d,i){return i*30+24-(-10);})
+			.attr("x",function(d,i){return 3*88})
+			.text(function(d,i){return "student "+(i+1)+": "+d.age});
+			
+	var firstBorder = canvas.append("rect")
+		.attr("height", 305)
+		.attr("width", 2)
+		.attr("x",250)
+		.attr("y",7)
+		.attr("fill", "black");
+		
+	var secondtBorder = canvas.append("rect")
+		.attr("height", 2)
+		.attr("width", 400)
+		.attr("x",250)
+		.attr("y",7)
+		.attr("fill", "black");
+		
+	var thirdtBorder = canvas.append("rect")
+		.attr("height", 305)
+		.attr("width", 2)
+		.attr("x",650)
+		.attr("y",7)
+		.attr("fill", "black");
+		
+	var fourthtBorder = canvas.append("rect")
+		.attr("height", 2)
+		.attr("width", 400)
+		.attr("x",250)
+		.attr("y",310)
+		.attr("fill", "black");
+		
+	var button = canvas.append("rect")
+		.attr("height", 25)
+		.attr("width", 75)
+		.attr("x",690)
+		.attr("y",50)
+		.attr("fill", "purple")
+		button.on("click",updatedata101)
+		
+	canvas.append("text")
+			.attr("fill","black")
+			.attr("x",698)
+			.attr("y",68)
+			.attr("font-size",16)
+            .text("update")
+		
+		
+	vis.on("mouseover",handleMouseOver)
+	vis.on("mouseout",handleMouseOut)
+			
+		
+	function handleMouseOver(d, i) {  
+
+            d3.select(this)
+				.transition()
+				.duration(500)
+				.attr("fill","gold")
+				
+         canvas.append("text")
+			.attr("fill","black")
+			.attr("id", "taj")
+			.attr("x",function() { return 3*88; })
+			.attr("y",function() { return i*30+24-(-10); })
+			.attr("font-size",16)
+            .text(function() {return d.name;})
+          }
+		    
+      function handleMouseOut(d, i) {
+            d3.select(this)
+			.transition()
+			.duration(500)
+			.attr("fill","#248f8f")		 
+			d3.select("#taj").remove();
+                      
+          }		
+		  
+		  
+
+		  
+	function updatedata101(){
+		
+		d3.json("updatedata.json",function(data){
+		var svg = d3.select("body").transition();
+		svg.select("rect")
+		.attr("d", vis(data))
+		.attr("width",function(d){return d.age*7;})
+				.attr("height",28)
+				.attr("y",function(d,i){return i*30-(-10);})
+				.attr("x",function(d,i){return 2.9*88})
+				.attr("fill","#248f8f");
+				
+				
+				
+	
+	
+	})
+	}
+
+	
+})	
+	
+		  
+		  
+	  
+		  
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	
+	
+		var canvas = d3.select("body").transition()
+			.attr("width",800)
+			.attr("height",900)
+		canvas.selectAll("rect")
+			.data(data2)
+			.update()
+				.append("rect")
+				.attr("width",function(d){return d.age*7;})
+				.attr("height",28)
+				.attr("y",function(d,i){return i*30-(-10);})
+				.attr("x",function(d,i){return 2.9*88})
+				.attr("fill","#248f8f");
+				
+	canvas.selectAll("text")
+		.data(data2)
+		.enter()
+			.append("text")
+			.attr("fill","gold")
+			.attr("y",function(d,i){return i*30+24-(-10);})
+			.attr("x",function(d,i){return 3*88})
+			.text(function(d,i){return "student "+(i+1)+": "+d.age});
+			*/
+			
+			/*
+	var firstBorder = canvas.append("rect")
+		.attr("height", 305)
+		.attr("width", 2)
+		.attr("x",250)
+		.attr("y",7)
+		.attr("fill", "black");
+		
+	var secondtBorder = canvas.append("rect")
+		.attr("height", 2)
+		.attr("width", 400)
+		.attr("x",250)
+		.attr("y",7)
+		.attr("fill", "black");
+		
+	var thirdtBorder = canvas.append("rect")
+		.attr("height", 305)
+		.attr("width", 2)
+		.attr("x",650)
+		.attr("y",7)
+		.attr("fill", "black");
+		
+	var fourthtBorder = canvas.append("rect")
+		.attr("height", 2)
+		.attr("width", 400)
+		.attr("x",250)
+		.attr("y",310)
+		.attr("fill", "black");
+		
+		
+		
+	var button = canvas.append("rect")
+		.attr("height", 25)
+		.attr("width", 75)
+		.attr("x",690)
+		.attr("y",50)
+		.attr("fill", "purple")
+		button.on("click",updatedata101)
+	canvas.append("text")
+			.attr("fill","black")
+			.attr("x",698)
+			.attr("y",68)
+			.attr("font-size",16)
+            .text("update")
+		
+		
+	vis.on("mouseover",handleMouseOver)
+	vis.on("mouseout",handleMouseOut)
+			
+		
+	function handleMouseOver(d, i) {  
+
+            d3.select(this)
+				.transition()
+				.duration(500)
+				.attr("fill","gold")
+				
+         canvas.append("text")
+			.attr("fill","black")
+			.attr("id", "taj")
+			.attr("x",function() { return 3*88; })
+			.attr("y",function() { return i*30+24-(-10); })
+			.attr("font-size",16)
+            .text(function() {return d.name;})
+          }
+		    
+      function handleMouseOut(d, i) {
+            d3.select(this)
+			.transition()
+			.duration(500)
+			.attr("fill","#248f8f")		 
+			d3.select("#taj").remove();
+                      
+          }		
+	*/
+	//}
+		
+		
+		
+		
+		
+		
+		
+	
+			
+			</script> 
+			
+				
+				
+	
+</body>
+
+
+</html>

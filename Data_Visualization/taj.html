@@ -1,0 +1,164 @@
+<!doctype html>
+
+<html>
+
+<div id="main">
+<head>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<link href="css/styles.css" rel="stylesheet" type="text/css" />
+
+<div id="backb">
+<button onclick="goBack()">Go Back</button>
+</div>
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+
+</head>
+<body>
+
+
+<script>
+	var canvas = d3.select("body")
+		.append("svg")
+		.attr("width",800)
+		.attr("height",800);
+		
+	var block1 = canvas.append("rect")
+		.attr("width",50)
+		.attr("height",18)
+		
+	var block2 = canvas.append("rect")
+		.attr("width",18)
+		.attr("height",50)
+		
+	var block3 = canvas.append("rect")
+		.attr("width",18)
+		.attr("height",50)
+	
+	var block4 = canvas.append("rect")
+		.attr("width",50)
+		.attr("height",18)
+	
+	var block5 = canvas.append("rect")
+		.attr("width",18)
+		.attr("height",50)
+		
+	var block6 = canvas.append("rect")
+		.attr("width",50)
+		.attr("height",18)
+	
+		
+	var block7 = canvas.append("rect")
+		.attr("width",18)
+		.attr("height",50)
+		
+	var block8 = canvas.append("rect")
+		.attr("width",50)
+		.attr("height",18)
+		
+	var block9 = canvas.append("rect")
+		.attr("width",50)
+		.attr("height",18)
+		
+	var block10 = canvas.append("rect")
+		.attr("width",50)
+		.attr("height",18)
+		
+		
+	block1.transition() // T1
+		.duration(2000)
+		.attr("x",100)
+		.attr("y",18)
+		.attr("height",25)
+		.attr("width", 220);
+	block2.transition()  //T2
+		.duration(2000)
+		.attr("x",190)
+		.attr("y",45)
+		.attr("height",220)
+		.attr("width",25)
+	block3.transition() // |
+		.duration(2000)
+		.attr("x",350)
+		.attr("y",45)
+		.attr("height",220)
+		.attr("width",25);
+	
+	block4.transition()//-
+		.duration(2000)
+		.attr("x",350)
+		.attr("y",18)
+		.attr("height",25)
+		.attr("width", 150);
+		
+	block5.transition()// |
+		.duration(2000)
+		.attr("x",475)
+		.attr("y",45)
+		.attr("height",220)
+		.attr("width",25);
+		
+	block6.transition()//-
+		.duration(2000)
+		.attr("x",375)
+		.attr("y",120)
+		.attr("height",25)
+		.attr("width", 100);
+		
+	block7.transition()// |
+		.duration(2000)
+		.attr("x",640)
+		.attr("y",45)
+		.attr("height",220)
+		.attr("width",25);
+		
+	block8.transition() // .
+		.duration(2000)
+		.attr("x",580)
+		.attr("y",18)
+		.attr("height",25)
+		.attr("width", 140);
+
+	block9.transition()//-
+		.duration(2000)
+		.attr("x",568)
+		.attr("y",240)
+		.attr("height",25)
+		.attr("width", 70);
+		
+	block10.transition() // .
+		.duration(2000)
+		.attr("x",545)
+		.attr("y",205)
+		.attr("height",60)
+		.attr("width", 25);
+		
+		
+	/*	
+	var circle = canvas.append("circle")
+		.attr("cx",50)
+		.attr("cy",50)
+		.attr("r",25);
+	circle.transition()
+		.duration(2000)
+		//.delay(2000)
+		.attr("cx",200)
+		.attr("fill","red")
+		.transition()
+		.attr("cy",200)
+		.attr("fill","blue")
+		//.on("end",(function(){d3.select(this).attr("fill","yellow");}));
+		*/
+		
+
+</script>
+
+
+
+</body>
+
+</div>
+</html>
